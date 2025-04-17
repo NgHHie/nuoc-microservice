@@ -2,12 +2,12 @@ package com.example.thongkekhachhangservice.model.builder;
 
 import java.time.LocalDateTime;
 
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
+import com.example.thongkekhachhangservice.model.KhachHang;
 
 
 
 public class ThongKeDirector {
-	public void build(ThongKeKHBuilder builder, KhachHangRequest kh, LocalDateTime start, LocalDateTime end) {
+	public void build(ThongKeKHBuilder builder, KhachHang kh, LocalDateTime start, LocalDateTime end) {
 			builder.fromKhachHang(kh)
 				.setBetween(start, end)
 				.buildDoanhThu()
@@ -15,7 +15,7 @@ public class ThongKeDirector {
 		
 	}
 	
-	public void build(ThongKeKHBuilder builder, KhachHangRequest kh) {
+	public void build(ThongKeKHBuilder builder, KhachHang kh) {
 		builder.fromKhachHang(kh).buildDoanhThu();
 	}
 }
