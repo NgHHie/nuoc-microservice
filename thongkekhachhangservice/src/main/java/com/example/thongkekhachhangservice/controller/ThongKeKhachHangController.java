@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import com.example.thongkekhachhangservice.client.KhachHangClient;
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
+import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.model.ThongKeKhachHang;
+import com.example.thongkekhachhangservice.service.KhachHangService;
 import com.example.thongkekhachhangservice.service.ThongKeKhachHangService;
 
 @RestController
@@ -29,17 +28,17 @@ public class ThongKeKhachHangController {
 	@Autowired
 	private ThongKeKhachHangService thongKeKhachHangService;
     @Autowired
-    private KhachHangClient khachHangClient;
+    private KhachHangService khachHangService;
 	
 	@GetMapping
 	public List<Map<String, Object>> thongKe(
 	        @RequestParam(required = false) Float start,
 	        @RequestParam(required = false) Float end) {
 		
-        List<KhachHangRequest> khList = khachHangClient.getAllKhachHang();
+        List<KhachHang> khList = khachHangService.getAllKhachHangs();
 		List<Map<String, Object>> thongKeList = new ArrayList<>();
 		
-		for (KhachHangRequest kh : khList) {
+		for (KhachHang kh : khList) {
 			ThongKeKhachHang thongKe = thongKeKhachHangService.getBasicThongKeFromKH(kh);
 			if ((start == null && end != null && thongKe.getDoanhthu() <= end) ||  
 			    (start != null && end == null && thongKe.getDoanhthu() >= start) ||  
@@ -63,7 +62,7 @@ public class ThongKeKhachHangController {
 			@RequestParam(required = false) LocalDateTime start,
 			@RequestParam(required = false) LocalDateTime end) {
 		
-		KhachHangRequest kh = khachHangClient.getKhachHangById(idkh);	
+		KhachHang kh = khachHangService.getKhachHangById(idkh);	
 		ThongKeKhachHang thongKeBasic = thongKeKhachHangService.getBasicThongKeFromKH(kh);
 		ThongKeKhachHang thongKeAdvance = thongKeKhachHangService.getAdvanceThongKeFromKH(kh, start, end);
 		

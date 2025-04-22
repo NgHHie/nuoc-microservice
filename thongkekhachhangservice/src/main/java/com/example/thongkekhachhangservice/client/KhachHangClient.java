@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
+import com.example.thongkekhachhangservice.model.KhachHang;
 
 @Component
 public class KhachHangClient {
@@ -18,20 +18,20 @@ public class KhachHangClient {
     @Value("${khachhang.service.url}") 
     private String khachHangServiceUrl;
 
-    public List<KhachHangRequest> getAllKhachHang() {
+    public List<KhachHang> getAllKhachHang() {
         return webClientBuilder.build().get()
                 .uri(khachHangServiceUrl) 
                 .retrieve()
-                .bodyToFlux(KhachHangRequest.class)
+                .bodyToFlux(KhachHang.class)
                 .collectList()
                 .block(); 
     }
 
-    public KhachHangRequest getKhachHangById(int id) {
+    public KhachHang getKhachHangById(int id) {
         return webClientBuilder.build().get()
                 .uri(khachHangServiceUrl + "/" + id)
                 .retrieve()
-                .bodyToMono(KhachHangRequest.class)
+                .bodyToMono(KhachHang.class)
                 .block();
     }
 }

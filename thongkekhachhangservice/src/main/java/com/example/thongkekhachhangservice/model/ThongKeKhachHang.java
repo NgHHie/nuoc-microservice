@@ -2,8 +2,6 @@ package com.example.thongkekhachhangservice.model;
 
 import java.time.LocalDateTime;
 
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
-
 import lombok.Data;
 
 @Data
@@ -17,6 +15,6 @@ public class ThongKeKhachHang{
     private LocalDateTime firstOrderDate;
     private int rewardPoints;
     
-    private KhachHangRequest kh;
+    private KhachHang kh;
 }
 

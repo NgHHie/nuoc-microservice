@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
+import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.model.ThongKeKhachHang;
 import com.example.thongkekhachhangservice.model.builder.AdvanceThongKe;
 import com.example.thongkekhachhangservice.model.builder.BasicThongKe;
@@ -17,7 +17,7 @@ public class ThongKeKhachHangService {
     @Autowired
     private HoaDonService hoaDonService;
 
-	public ThongKeKhachHang getBasicThongKeFromKH(KhachHangRequest kh) {
+	public ThongKeKhachHang getBasicThongKeFromKH(KhachHang kh) {
 		ThongKeDirector director = new ThongKeDirector();
 		BasicThongKe basicBuilder = new BasicThongKe(hoaDonService);
 		director.build(basicBuilder, kh);
@@ -25,7 +25,7 @@ public class ThongKeKhachHangService {
 		return thongKe;
 	}
 	
-	public ThongKeKhachHang getAdvanceThongKeFromKH(KhachHangRequest kh, LocalDateTime start, LocalDateTime end) {
+	public ThongKeKhachHang getAdvanceThongKeFromKH(KhachHang kh, LocalDateTime start, LocalDateTime end) {
 		ThongKeDirector director = new ThongKeDirector();
 		AdvanceThongKe advanceBuilder = new AdvanceThongKe(hoaDonService);
 		director.build(advanceBuilder, kh, start, end);

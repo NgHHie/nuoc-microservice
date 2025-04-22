@@ -2,7 +2,7 @@ package com.example.thongkekhachhangservice.model.builder;
 
 import java.time.LocalDateTime;
 
-import com.example.thongkekhachhangservice.dto.KhachHangRequest;
+import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.model.ThongKeKhachHang;
 import com.example.thongkekhachhangservice.service.HoaDonService;
 
@@ -21,7 +21,7 @@ public abstract class ThongKeKHBuilder {
 		return this;
 	}
 	
-	public ThongKeKHBuilder fromKhachHang(KhachHangRequest kh) {
+	public ThongKeKHBuilder fromKhachHang(KhachHang kh) {
 		thongKeKh = new ThongKeKhachHang();
 		thongKeKh.setKh(kh);
 		return this;
