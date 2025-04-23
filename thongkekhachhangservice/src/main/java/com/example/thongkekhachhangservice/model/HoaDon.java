@@ -21,4 +21,5 @@ public class HoaDon {
     private int khachhangId;
     private int hopdongId;
     private int donghonuocId;
+    private String trangthai;
 }

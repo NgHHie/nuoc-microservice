@@ -2,6 +2,8 @@ package com.example.khachhangservice.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -24,6 +26,7 @@ public class CanHo {
     private KhachHang khachhang;
 
     @OneToOne(mappedBy = "canho")
+    @JsonIgnore
     private DongHoNuoc donghonuoc;
 
 }

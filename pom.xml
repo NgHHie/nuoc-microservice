@@ -18,6 +18,7 @@
 		<module>thongkekhachhangservice</module>
 		<module>discoveryserver</module>
 		<module>apigateway</module>
+		<module>hopdonghoaadonservice</module>
 	</modules>
 	
 	<properties>
