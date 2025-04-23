@@ -112,6 +112,11 @@ public class DongHoNuocService {
             throw new RuntimeException("Đồng hồ nước không tồn tại");
         }
         
+        // Kiểm tra chỉ số mới phải lớn hơn hoặc bằng chỉ số cũ
+        if (dongHoNuoc.getChisomoi() < dongHoNuoc.getChisocu()) {
+            throw new RuntimeException("Chỉ số mới không thể nhỏ hơn chỉ số cũ");
+        }
+        
         dongHoNuoc.setId(id);
         dongHoNuoc.setNgaycapnhat(LocalDateTime.now());
         return dongHoNuocRepository.save(dongHoNuoc);

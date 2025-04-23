@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.khachhangservice.model.CanHo;
@@ -16,6 +18,7 @@ public class KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
 
+    // Các phương thức hiện tại
     public List<KhachHang> getAllKhachHang() {
         return khachHangRepository.findAll();
     }
@@ -40,7 +43,27 @@ public class KhachHangService {
         return khachHangRepository.findByCanHo(canho);
     }
 
-    // public KhachHang getKhachHangByHoaDon(HoaDon hoadon) {
-    //     return khachHangRepository.findByHoaDon(hoadon);
-    // }
+    // Thêm các phương thức mới có hỗ trợ phân trang
+    public Page<KhachHang> getAllKhachHangPaged(Pageable pageable) {
+        return khachHangRepository.findAll(pageable);
+    }
+    
+    public Page<KhachHang> searchKhachHang(String searchTerm, String searchField, Pageable pageable) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return getAllKhachHangPaged(pageable);
+        }
+        
+        // Tìm kiếm theo trường tương ứng
+        switch (searchField) {
+            case "hoten":
+                return khachHangRepository.findByHotenContainingIgnoreCase(searchTerm, pageable);
+            case "email":
+                return khachHangRepository.findByEmailContainingIgnoreCase(searchTerm, pageable);
+            case "sodienthoai":
+                return khachHangRepository.findBySodienthoaiContaining(searchTerm, pageable);
+            default:
+                // Tìm kiếm mặc định theo tên
+                return khachHangRepository.findByHotenContainingIgnoreCase(searchTerm, pageable);
+        }
+    }
 }
