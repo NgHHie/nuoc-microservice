@@ -30,6 +30,7 @@ public class CanHo {
 
     @ManyToOne
     @JoinColumn(name = "khachhang_id")
+    @JsonIgnore
     private KhachHang khachhang;
 
     @OneToOne(mappedBy = "canho")

@@ -35,7 +35,6 @@ public class KhachHang{
     private String email;
 
     @OneToMany(mappedBy = "khachhang")
-    @JsonIgnore
     private List<CanHo> canho;
 }
 
