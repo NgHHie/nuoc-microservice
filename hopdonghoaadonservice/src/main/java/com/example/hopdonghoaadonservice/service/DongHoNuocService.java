@@ -65,7 +65,6 @@ public class DongHoNuocService {
             throw new RuntimeException("Chỉ số mới không thể nhỏ hơn chỉ số cũ (" + oldReading + ")");
         }
         
-        // Create new meter reading
         DongHoNuoc dongHoNuocNew = DongHoNuoc.builder()
                 .id(donghonuocId)
                 .chisocu(oldReading)
@@ -76,13 +75,8 @@ public class DongHoNuocService {
         
         DongHoNuoc savedDongHoNuoc = dongHoNuocRepository.save(dongHoNuocNew);
         
-        // Calculate water usage
         float waterUsage = chisomoi - oldReading;
-        
-        // Generate new invoice based on water usage
         HopDong hopDong = activeContract.get();
-        
-        // Create and save the invoice
         HoaDon hoaDon = hoaDonService.createHoaDonFromDongHoNuoc(
                 savedDongHoNuoc, 
                 hopDong, 
