@@ -11,6 +11,7 @@ import com.example.hopdonghoaadonservice.model.DichVuNuoc;
 import com.example.hopdonghoaadonservice.model.DongHoNuoc;
 import com.example.hopdonghoaadonservice.model.HoaDon;
 import com.example.hopdonghoaadonservice.model.HopDong;
+import com.example.hopdonghoaadonservice.model.KhachHang;
 import com.example.hopdonghoaadonservice.model.MucLuyTien;
 import com.example.hopdonghoaadonservice.repository.HoaDonRepository;
 
@@ -38,10 +39,12 @@ public class HoaDonService {
         
         float totalAmount = calculateInvoiceAmount(waterUsage, mucLuyTiens);
         
+        KhachHang kh = new KhachHang();
+        kh.setId(khachHangId);
         HoaDon hoaDon = HoaDon.builder()
                 .ngaylap(LocalDateTime.now())
                 .tongsotien(totalAmount)
-                .khachhangId(khachHangId)
+                .kh(kh)
                 .hopdong(hopDong)
                 .donghonuoc(dongHoNuoc)
                 .trangthai("CHUA_THANH_TOAN")

@@ -2,6 +2,8 @@ package com.example.thongkekhachhangservice.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,7 @@ public class ThongKeKhachHang{
     private LocalDateTime firstOrderDate;
     private int rewardPoints;
     
+	@JsonProperty("kh")
     private KhachHang kh;
 }
 

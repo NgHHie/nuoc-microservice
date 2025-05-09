@@ -43,7 +43,7 @@ public class DongHoNuocService {
     public HoaDon updateChiSoDongHo(DongHoNuoc dongHoNuoc) {
         // Validate căn hộ exists
         int donghonuocId = dongHoNuoc.getId();
-        int canHoId = dongHoNuoc.getCanhoId();
+        int canHoId = dongHoNuoc.getCanho().getId();
         float chisomoi = dongHoNuoc.getChisomoi();
         if (!khachHangClient.checkCanHoExists(canHoId)) {
             throw new RuntimeException("Căn hộ không tồn tại");
@@ -69,7 +69,7 @@ public class DongHoNuocService {
                 .id(donghonuocId)
                 .chisocu(oldReading)
                 .chisomoi(chisomoi)
-                .canhoId(canHoId)
+                .canho(dongHoNuoc.getCanho())
                 .ngaycapnhat(LocalDateTime.now())
                 .build();
         
@@ -80,7 +80,7 @@ public class DongHoNuocService {
         HoaDon hoaDon = hoaDonService.createHoaDonFromDongHoNuoc(
                 savedDongHoNuoc, 
                 hopDong, 
-                hopDong.getKhachhangId(), 
+                hopDong.getKh().getId(), 
                 waterUsage);
         
         return hoaDon;

@@ -29,7 +29,7 @@ public class HoaDon {
     private float tongsotien;
     private String trangthai;
 
-    private int khachhangId;
+    private KhachHang kh;
     
     @ManyToOne
     @JoinColumn(name = "hopdong_id")

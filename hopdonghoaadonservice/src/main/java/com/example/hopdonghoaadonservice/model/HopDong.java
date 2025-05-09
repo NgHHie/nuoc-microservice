@@ -20,8 +20,8 @@ public class HopDong {
     private LocalDate ngayki;
     private String trangthai;
     
-    private int khachhangId;
-    private int canhoId;
+    private KhachHang kh;
+    private CanHo canho;
     
     @ManyToOne
     @JoinColumn(name = "dichvunuoc_id")

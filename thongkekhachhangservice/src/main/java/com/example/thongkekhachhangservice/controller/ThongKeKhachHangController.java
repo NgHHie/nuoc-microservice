@@ -32,12 +32,12 @@ public class ThongKeKhachHangController {
     private KhachHangService khachHangService;
 	
 	@GetMapping
-	public List<Map<String, Object>> thongKe(
+	public List<ThongKeKhachHang> thongKe(
 	        @RequestParam(required = false) Float start,
 	        @RequestParam(required = false) Float end) {
 		
         List<KhachHang> khList = khachHangService.getAllKhachHangs();
-		List<Map<String, Object>> thongKeList = new ArrayList<>();
+		List<ThongKeKhachHang> thongKeList = new ArrayList<>();
 		
 		for (KhachHang kh : khList) {
 			ThongKeKhachHang thongKe = thongKeKhachHangService.getBasicThongKeFromKH(kh);
@@ -46,14 +46,11 @@ public class ThongKeKhachHangController {
 			    (start != null && end != null && thongKe.getDoanhthu() >= start && thongKe.getDoanhthu() <= end) ||  
 			    (start == null && end == null)) { 
 				
-				Map<String, Object> thongKeMap = new HashMap<>();
-				thongKeMap.put("khachHang", kh);  
-				thongKeMap.put("thongKe", thongKe);
-				
-				thongKeList.add(thongKeMap);
+				thongKeList.add(thongKe);
+				System.out.println(thongKe.getKh().getHoten());
 			}
 		}
-		
+
 		return thongKeList;
 	}
 	

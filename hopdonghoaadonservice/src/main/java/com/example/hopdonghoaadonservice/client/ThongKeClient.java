@@ -25,7 +25,7 @@ public class ThongKeClient {
             Map<String, Object> body = new HashMap<>();
             body.put("ngaylap", hoadon.getNgaylap());
             body.put("tongsotien", hoadon.getTongsotien());
-            body.put("khachhangId", hoadon.getKhachhangId());
+            body.put("khachhangId", hoadon.getKh().getId());
             body.put("hopdongId", hoadon.getHopdong().getId());
             body.put("donghonuocId", hoadon.getDonghonuoc().getId());
             body.put("trangthai", hoadon.getTrangthai());
