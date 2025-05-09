@@ -68,27 +68,20 @@ public class HoaDonService {
             boolean isLastTier = false;
             
             if (parts.length > 1) {
-                if (parts[1].endsWith("+")) {
-                    upperBound = Float.MAX_VALUE;
-                    isLastTier = true;
-                } else {
-                    upperBound = Float.parseFloat(parts[1]);
-                }
+                upperBound = Float.parseFloat(parts[1]);  
             } else {
-                // If only one number, assume it's a fixed tier
                 upperBound = lowerBound;
+                isLastTier = true;
             }
             
             float usageInTier;
             if (remainingUsage <= 0) {
-                continue; // Skip if no remaining usage
+                continue; 
             } else if (isLastTier) {
-                // For last tier, use all remaining usage
                 usageInTier = remainingUsage;
                 remainingUsage = 0;
             } else {
-                // For other tiers, calculate consumption in this tier
-                float tierRange = upperBound - lowerBound + 1;
+                float tierRange = upperBound - lowerBound;
                 if (remainingUsage <= tierRange) {
                     usageInTier = remainingUsage;
                     remainingUsage = 0;

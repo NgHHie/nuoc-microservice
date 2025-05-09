@@ -9,25 +9,29 @@ import org.springframework.stereotype.Service;
 import com.example.thongkekhachhangservice.model.HoaDon;
 import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.repository.HoaDonRepository;
+import com.example.thongkekhachhangservice.repository.KhachHangRepository;
 
 @Service
 public class HoaDonService {
-	@Autowired
-	private HoaDonRepository hoaDonRepository;
-	
-	public List<HoaDon> getHoaDonList(LocalDateTime start, LocalDateTime end) {
-		if (start == null && end == null) {
-	        return hoaDonRepository.findAll();
-	    } 
-	    if (start != null && end == null) {
-	        return hoaDonRepository.findByNgaylapBetween(start, LocalDateTime.now());
-	    } 
-	    if (start == null && end != null) {
-	        return hoaDonRepository.findByNgaylapLessThanEqual(end);
-	    }
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
+    
+    @Autowired
+    private KhachHangRepository khachHangRepository;
+    
+    public List<HoaDon> getHoaDonList(LocalDateTime start, LocalDateTime end) {
+        if (start == null && end == null) {
+            return hoaDonRepository.findAll();
+        } 
+        if (start != null && end == null) {
+            return hoaDonRepository.findByNgaylapBetween(start, LocalDateTime.now());
+        } 
+        if (start == null && end != null) {
+            return hoaDonRepository.findByNgaylapLessThanEqual(end);
+        }
 
-	    return hoaDonRepository.findByNgaylapBetween(start, end);
-	}
+        return hoaDonRepository.findByNgaylapBetween(start, end);
+    }
 
     public List<HoaDon> getHoaDonList(LocalDateTime start, LocalDateTime end, Integer khachhangId) {
         if (khachhangId == null) {
@@ -48,9 +52,14 @@ public class HoaDonService {
     }
 
     public HoaDon saveHoaDon(HoaDon hoaDon) {
-        HoaDon hd = hoaDonRepository.save(hoaDon);
-        return hd;
+        // Nếu hoaDon có khachhang, nhưng không có ID, lấy ID từ entity
+        if (hoaDon.getKhachhang() != null) {
+            KhachHang khachHang = khachHangRepository.findById(hoaDon.getKhachhang().getId()).orElse(null);
+            if (khachHang != null) {
+                hoaDon.setKhachhang(khachHang);
+            }
+        }
+        
+        return hoaDonRepository.save(hoaDon);
     }
-
 }
-

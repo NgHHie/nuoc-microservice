@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.thongkekhachhangservice.model.HoaDon;
+import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.service.HoaDonService;
+import com.example.thongkekhachhangservice.service.KhachHangService;
 
 @RestController
 @CrossOrigin(origins = "http://hopdonghoaadonservice")
@@ -20,6 +22,9 @@ public class HoaDonController {
 
     @PostMapping
     public Boolean createHoaDon(@RequestBody HoaDon hoaDon) {
+        KhachHang kh = new KhachHang();
+        kh.setId(hoaDon.getKhachhangId());
+        hoaDon.setKhachhang(kh);
     	hoaDonService.saveHoaDon(hoaDon);
         return true;
     }
