@@ -1,12 +1,14 @@
 package com.example.hopdonghoaadonservice.model;
 
+import jakarta.persistence.Embeddable;
 import lombok.Data;
 
 @Data
+@Embeddable
 public class CanHo {
     private int id;
-    private int socanho;
-    private String toanha;
-    private KhachHang khachhang;
+    private transient int socanho;
+    private transient  String toanha;
+    private transient  KhachHang khachhang;
 
 }

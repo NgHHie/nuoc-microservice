@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +33,10 @@ public class HoaDon {
     private float tongsotien;
     private String trangthai;
 
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "khachhang_id"))
+    })
     private KhachHang kh;
     
     @ManyToOne

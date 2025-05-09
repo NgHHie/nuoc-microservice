@@ -2,6 +2,10 @@ package com.example.hopdonghoaadonservice.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +24,15 @@ public class HopDong {
     private LocalDate ngayki;
     private String trangthai;
     
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "khachhang_id"))
+    })
     private KhachHang kh;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "canho_id"))
+    })
     private CanHo canho;
     
     @ManyToOne

@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +31,9 @@ public class DongHoNuoc {
     private float chisomoi;
     private LocalDateTime ngaycapnhat;
     
-    @JsonProperty(value = "canho_id")
-    private int canhoId;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "canho_id"))
+    })
+    private CanHo canho;
 }
