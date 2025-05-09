@@ -34,7 +34,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
 @Transactional
 @RequestMapping("/khachhang")
 public class KhachHangController {
@@ -72,6 +71,7 @@ public class KhachHangController {
             @RequestParam(required = false) String search) {
         
         try {
+            page = page - 1;
             // Xử lý tham số sắp xếp
             Sort sortObj = Sort.by(Sort.Direction.ASC, "id"); // Mặc định sắp xếp theo ID tăng dần
             if (sort != null && !sort.isEmpty()) {

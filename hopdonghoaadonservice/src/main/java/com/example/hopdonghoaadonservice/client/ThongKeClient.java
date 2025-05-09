@@ -1,10 +1,13 @@
 package com.example.hopdonghoaadonservice.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-
+import com.example.hopdonghoaadonservice.model.HoaDon;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -16,21 +19,27 @@ public class ThongKeClient {
     @Value("${thongkekhachhang.service.url}") 
     private String thongKeServiceUrl;
 
-    public boolean notifyNewHoaDon(int khachhangId, float amount) {
-        try {
+    public Boolean updateHoaDon(String state, HoaDon hoadon) {
+    switch (state) {
+        case "create":
+            Map<String, Object> body = new HashMap<>();
+            body.put("ngaylap", hoadon.getNgaylap());
+            body.put("tongsotien", hoadon.getTongsotien());
+            body.put("khachhangId", hoadon.getKhachhangId());
+            body.put("hopdongId", hoadon.getHopdong().getId());
+            body.put("donghonuocId", hoadon.getDonghonuoc().getId());
+            body.put("trangthai", hoadon.getTrangthai());
+
             return webClientBuilder.build().post()
-                    .uri(thongKeServiceUrl + "/notify?khachhangId=" + khachhangId + "&amount=" + amount)
-                    .retrieve()
-                    .bodyToMono(Boolean.class)
-                    .onErrorResume(e -> {
-                        // Log error but don't fail
-                        System.err.println("Failed to notify thongke service: " + e.getMessage());
-                        return Mono.just(false);
-                    })
-                    .block();
-        } catch (Exception e) {
-            System.err.println("Failed to notify thongke service: " + e.getMessage());
+                .uri(thongKeServiceUrl)
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block();
+
+        default:
             return false;
-        }
     }
+}
+
 }

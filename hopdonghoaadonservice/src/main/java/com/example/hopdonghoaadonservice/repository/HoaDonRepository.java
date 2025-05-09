@@ -14,15 +14,6 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     
     List<HoaDon> findByKhachhangId(int khachhangId);
     
-    List<HoaDon> findByHopdongId(int hopdongId);
-    
-    List<HoaDon> findByDonghonuocId(int donghonuocId);
-    
-    List<HoaDon> findByNgaylapBetween(LocalDateTime startDate, LocalDateTime endDate);
-    
-    @Query("SELECT h FROM HoaDon h WHERE h.khachhangId = :khachhangId AND h.ngaylap BETWEEN :startDate AND :endDate")
-    List<HoaDon> findByKhachhangIdAndDateRange(int khachhangId, LocalDateTime startDate, LocalDateTime endDate);
-    
     @Query("SELECT h FROM HoaDon h JOIN h.donghonuoc d WHERE d.canhoId = :canhoId")
     List<HoaDon> findByCanhoId(int canhoId);
     

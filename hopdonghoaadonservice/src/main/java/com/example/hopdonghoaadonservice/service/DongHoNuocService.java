@@ -29,18 +29,6 @@ public class DongHoNuocService {
     @Autowired
     private KhachHangClient khachHangClient;
     
-    public List<DongHoNuoc> getAllDongHoNuoc() {
-        return dongHoNuocRepository.findAll();
-    }
-    
-    public Optional<DongHoNuoc> getDongHoNuocById(int id) {
-        return dongHoNuocRepository.findById(id);
-    }
-    
-    public List<DongHoNuoc> getDongHoNuocByCanHoId(int canHoId) {
-        return dongHoNuocRepository.findByCanhoId(canHoId);
-    }
-    
     public Optional<DongHoNuoc> getLatestDongHoNuocByCanHoId(int canHoId) {
         return dongHoNuocRepository.findLatestByCanhoId(canHoId);
     }
@@ -50,45 +38,43 @@ public class DongHoNuocService {
         dongHoNuoc.setNgaycapnhat(LocalDateTime.now());
         return dongHoNuocRepository.save(dongHoNuoc);
     }
-    
-    /**
-     * Updates water meter readings and generates an invoice
-     */
+
     @Transactional
-    public HoaDon updateChiSoDongHo(int canHoId, float chisomoi) {
+    public HoaDon updateChiSoDongHo(DongHoNuoc dongHoNuoc) {
         // Validate căn hộ exists
+        int donghonuocId = dongHoNuoc.getId();
+        int canHoId = dongHoNuoc.getCanhoId();
+        float chisomoi = dongHoNuoc.getChisomoi();
         if (!khachHangClient.checkCanHoExists(canHoId)) {
             throw new RuntimeException("Căn hộ không tồn tại");
         }
         
-        // Check if apartment has an active contract
         Optional<HopDong> activeContract = hopDongService.getActiveHopDongByCanHoId(canHoId);
         if (!activeContract.isPresent()) {
             throw new RuntimeException("Căn hộ chưa có hợp đồng hoạt động");
         }
         
-        // Get the latest meter reading
         Optional<DongHoNuoc> latestReading = getLatestDongHoNuocByCanHoId(canHoId);
         
         float oldReading = 0f;
         if (latestReading.isPresent()) {
             oldReading = latestReading.get().getChisomoi();
         }
-        
-        // Validate new reading is greater than old reading
+
         if (chisomoi < oldReading) {
             throw new RuntimeException("Chỉ số mới không thể nhỏ hơn chỉ số cũ (" + oldReading + ")");
         }
         
         // Create new meter reading
-        DongHoNuoc dongHoNuoc = DongHoNuoc.builder()
+        DongHoNuoc dongHoNuocNew = DongHoNuoc.builder()
+                .id(donghonuocId)
                 .chisocu(oldReading)
                 .chisomoi(chisomoi)
                 .canhoId(canHoId)
                 .ngaycapnhat(LocalDateTime.now())
                 .build();
         
-        DongHoNuoc savedDongHoNuoc = dongHoNuocRepository.save(dongHoNuoc);
+        DongHoNuoc savedDongHoNuoc = dongHoNuocRepository.save(dongHoNuocNew);
         
         // Calculate water usage
         float waterUsage = chisomoi - oldReading;
@@ -104,30 +90,5 @@ public class DongHoNuocService {
                 waterUsage);
         
         return hoaDon;
-    }
-    
-    @Transactional
-    public DongHoNuoc updateDongHoNuoc(int id, DongHoNuoc dongHoNuoc) {
-        if (!dongHoNuocRepository.existsById(id)) {
-            throw new RuntimeException("Đồng hồ nước không tồn tại");
-        }
-        
-        // Kiểm tra chỉ số mới phải lớn hơn hoặc bằng chỉ số cũ
-        if (dongHoNuoc.getChisomoi() < dongHoNuoc.getChisocu()) {
-            throw new RuntimeException("Chỉ số mới không thể nhỏ hơn chỉ số cũ");
-        }
-        
-        dongHoNuoc.setId(id);
-        dongHoNuoc.setNgaycapnhat(LocalDateTime.now());
-        return dongHoNuocRepository.save(dongHoNuoc);
-    }
-    
-    @Transactional
-    public void deleteDongHoNuoc(int id) {
-        if (!dongHoNuocRepository.existsById(id)) {
-            throw new RuntimeException("Đồng hồ nước không tồn tại");
-        }
-        
-        dongHoNuocRepository.deleteById(id);
     }
 }

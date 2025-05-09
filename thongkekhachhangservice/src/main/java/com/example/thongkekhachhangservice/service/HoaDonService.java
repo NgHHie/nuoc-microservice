@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.thongkekhachhangservice.model.HoaDon;
+import com.example.thongkekhachhangservice.model.KhachHang;
 import com.example.thongkekhachhangservice.repository.HoaDonRepository;
 
 @Service
@@ -46,6 +47,10 @@ public class HoaDonService {
         return hoaDonRepository.findByKhachhangIdAndNgaylapBetween(khachhangId, start, end);
     }
 
+    public HoaDon saveHoaDon(HoaDon hoaDon) {
+        HoaDon hd = hoaDonRepository.save(hoaDon);
+        return hd;
+    }
 
 }
 

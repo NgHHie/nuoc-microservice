@@ -17,9 +17,10 @@ public class HoaDon {
 
     private LocalDateTime ngaylap;
     private float tongsotien;
+    private String trangthai;
 
     private int khachhangId;
     private int hopdongId;
     private int donghonuocId;
-    private String trangthai;
+    
 }

@@ -2,6 +2,8 @@ package com.example.hopdonghoaadonservice.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,5 +27,6 @@ public class DongHoNuoc {
     private float chisomoi;
     private LocalDateTime ngaycapnhat;
     
+    @JsonProperty(value = "canho_id")
     private int canhoId;
 }

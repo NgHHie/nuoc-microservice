@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +35,7 @@ public class KhachHang{
     @Email(message = "Email không hợp lệ")
     private String email;
 
-    @OneToMany(mappedBy = "khachhang")
+    @OneToMany(mappedBy = "khachhang", cascade = CascadeType.ALL)
     private List<CanHo> canho;
 }
 

@@ -1,5 +1,7 @@
 package com.example.hopdonghoaadonservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,5 +22,6 @@ public class MucLuyTien {
     
     @ManyToOne
     @JoinColumn(name = "dichvunuoc_id")
+    @JsonIgnore
     private DichVuNuoc dichvunuoc;
 }

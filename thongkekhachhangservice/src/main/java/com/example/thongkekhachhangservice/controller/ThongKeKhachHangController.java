@@ -1,5 +1,6 @@
 package com.example.thongkekhachhangservice.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,6 @@ import com.example.thongkekhachhangservice.service.KhachHangService;
 import com.example.thongkekhachhangservice.service.ThongKeKhachHangService;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/thongkekhachhang")
 public class ThongKeKhachHangController {
 
@@ -58,13 +59,20 @@ public class ThongKeKhachHangController {
 	
 	@GetMapping("/{idkh}")
 	public List<ThongKeKhachHang> thongKeKhachHang(
-			@PathVariable int idkh,
-			@RequestParam(required = false) LocalDateTime start,
-			@RequestParam(required = false) LocalDateTime end) {
+		@PathVariable int idkh,
+		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
 		
-		KhachHang kh = khachHangService.getKhachHangById(idkh);	
+		// Chuyển đổi LocalDate sang LocalDateTime nếu cần
+		LocalDateTime startDateTime = start != null ? start.atStartOfDay() : null;
+		LocalDateTime endDateTime = end != null ? end.atTime(23, 59, 59) : null;
+
+		System.out.println(startDateTime);
+		System.out.println(endDateTime);
+		
+		KhachHang kh = khachHangService.getKhachHangById(idkh);    
 		ThongKeKhachHang thongKeBasic = thongKeKhachHangService.getBasicThongKeFromKH(kh);
-		ThongKeKhachHang thongKeAdvance = thongKeKhachHangService.getAdvanceThongKeFromKH(kh, start, end);
+		ThongKeKhachHang thongKeAdvance = thongKeKhachHangService.getAdvanceThongKeFromKH(kh, startDateTime, endDateTime);
 		
 		return Arrays.asList(thongKeBasic, thongKeAdvance);
 	}

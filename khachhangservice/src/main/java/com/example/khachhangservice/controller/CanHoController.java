@@ -22,7 +22,6 @@ import com.example.khachhangservice.service.KhachHangService;
 import jakarta.transaction.Transactional;
 
 @RestController
-@CrossOrigin(origins = "*")
 @Transactional
 @RequestMapping("/khachhang/canho")
 public class CanHoController {
@@ -54,6 +53,7 @@ public class CanHoController {
 
     @PostMapping
     public CanHo createCanHo(@RequestBody CanHo canHo) {
+        System.out.println(canHo);
         return canHoService.saveCanHo(canHo);
     }
 

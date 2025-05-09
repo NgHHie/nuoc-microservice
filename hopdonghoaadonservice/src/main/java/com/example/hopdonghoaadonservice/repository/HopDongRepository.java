@@ -19,6 +19,4 @@ public interface HopDongRepository extends JpaRepository<HopDong, Integer> {
     @Query("SELECT h FROM HopDong h WHERE h.canhoId = :canhoId AND h.trangthai = 'ACTIVE'")
     Optional<HopDong> findActiveHopDongByCanhoId(int canhoId);
     
-    @Query("SELECT h FROM HopDong h WHERE h.khachhangId = :khachhangId AND h.trangthai = 'ACTIVE'")
-    List<HopDong> findActiveHopDongByKhachhangId(int khachhangId);
 }

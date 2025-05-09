@@ -43,7 +43,6 @@ public class KhachHangService {
         return khachHangRepository.findByCanHo(canho);
     }
 
-    // Thêm các phương thức mới có hỗ trợ phân trang
     public Page<KhachHang> getAllKhachHangPaged(Pageable pageable) {
         return khachHangRepository.findAll(pageable);
     }
@@ -53,7 +52,6 @@ public class KhachHangService {
             return getAllKhachHangPaged(pageable);
         }
         
-        // Tìm kiếm theo trường tương ứng
         switch (searchField) {
             case "hoten":
                 return khachHangRepository.findByHotenContainingIgnoreCase(searchTerm, pageable);

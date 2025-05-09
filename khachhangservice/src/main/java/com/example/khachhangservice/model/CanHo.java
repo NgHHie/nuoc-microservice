@@ -1,15 +1,13 @@
 package com.example.khachhangservice.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +17,7 @@ import lombok.Data;
 @Data
 public class CanHo {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @NotNull(message = "Số căn hộ không được để trống")
@@ -30,11 +29,7 @@ public class CanHo {
 
     @ManyToOne
     @JoinColumn(name = "khachhang_id")
-    @JsonIgnore
+    @JsonProperty(value = "khachhang", access = JsonProperty.Access.WRITE_ONLY)
     private KhachHang khachhang;
-
-    @OneToOne(mappedBy = "canho")
-    @JsonIgnore
-    private DongHoNuoc donghonuoc;
 
 }
